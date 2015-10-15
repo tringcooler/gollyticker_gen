@@ -1,5 +1,6 @@
 
 import re
+import json
 
 class rle_loader(object):
 
@@ -211,8 +212,8 @@ class l_matrix(object):
                         right = x
         self.x = left
         self.y = top
-        self.width = right - left
-        self.height = bot - top
+        self.width = right - left + 1
+        self.height = bot - top + 1
         if self.x > 0 or self.y > 0:
             r = {}
             for y in self.mx:
@@ -368,13 +369,13 @@ class golly_ticker_patt(object):
         elif idx < tn[2]:
             pidx = idx - tn[1]
             nidx = tn[2] - idx
-            bx = 49
-            by = 26
-            x = int(pidx/2) * 23 + bx
-            y = int(nidx/2) * 23 + by
+            bx = 37
+            by = 37
+            x = int(nidx/2) * 23 + bx
+            y = int(pidx/2) * 23 + by
             if pidx % 2:
-                x += 11
-                y += 11
+                x += 12
+                y += 12
         elif idx < tn[3]:
             pidx = idx - tn[2]
             by = self.g_size * 23 + 23
@@ -459,16 +460,41 @@ class golly_ticker(object):
                     self.eater_lm_p, etp)
 
     def clear_glider(self, x, y):
+        if y < self.p_cnt_p:
+            ph = y * self.distp
+        else:
+            ph = (self.height - y - 1) * self.distp
+        x = x - ph
+        if x < 0:
+            x += self.width
         px, py = self.calc_glider_pos(x, y)
         self.gt_lm.cut([px - self.gt_lm.x, py - self.gt_lm.y], [3, 3])
+
+    def load_bitmap(self, jsonfile, length = None):
+        with open(jsonfile, 'rU') as fd:
+            bmp = json.load(fd)
+        bmp = {int(k):{int(i):int(j) for i,j in v.items()} for k,v in bmp.items()}
+        blm = l_matrix()
+        blm.mx = bmp
+        blm.strip()
+        self.bitmap_lm = blm
+        if length == None:
+            length = blm.width * 23
+        self.make_gt(blm.width, blm.height, length)
+        self.set_gliders()
+
+    def set_gliders(self):
+        for x in range(0, self.width):
+            for y in range(0, self.height):
+                try:
+                    v = self.bitmap_lm.mx[y][x]
+                except KeyError:
+                    self.clear_glider(x, y)
 
 if __name__ == '__main__':
     gt = golly_ticker('template.rle')
     rslt = rle_loader()
-    gt.make_gt(27, 9, 200)
-    for i in range(0, 27):
-        for j in range(0, 9):
-            gt.clear_glider(i, j)
+    gt.load_bitmap('bitmap.json')
     rslt.import_lm(gt.gt_lm)
     rslt.save_file('result.rle')
     

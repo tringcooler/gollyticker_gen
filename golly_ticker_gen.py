@@ -343,6 +343,52 @@ class golly_ticker_patt(object):
     def size(self):
         return [self.g_size * 23 + 59, self.g_size * 23 + 83]
 
+    def glider_pos(self, idx):
+        stp = [self.g_size * 2, 2, self.g_size * 2, 3]
+        tn = [sum(stp[:i]) for i in range(1, len(stp)+1)]
+        if idx < tn[0]:
+            pidx = idx
+            nidx = tn[0] - idx
+            bx = 28
+            by = 8
+            x = int(pidx/2) * 23 + bx
+            y = int(nidx/2) * 23 + by
+            if pidx % 2:
+                x += 12
+                y += 12
+        elif idx < tn[1]:
+            pidx = idx - tn[0]
+            bx = self.g_size * 23 + 29
+            by = 14
+            x = int(pidx/2) * 23 + bx
+            y = int(pidx/2) * 23 + by 
+            if pidx % 2:
+                x += 12
+                y += 11
+        elif idx < tn[2]:
+            pidx = idx - tn[1]
+            nidx = tn[2] - idx
+            bx = 49
+            by = 26
+            x = int(pidx/2) * 23 + bx
+            y = int(nidx/2) * 23 + by
+            if pidx % 2:
+                x += 11
+                y += 11
+        elif idx < tn[3]:
+            pidx = idx - tn[2]
+            by = self.g_size * 23 + 23
+            if pidx == 0:
+                x = 37
+                y = by + 14
+            elif pidx == 1:
+                x = 27
+                y = by + 11
+            elif pidx == 2:
+                x = 15
+                y = by
+        return [x, y]
+
 class golly_ticker(object):
 
     def __init__(self, pattfile):
@@ -372,6 +418,16 @@ class golly_ticker(object):
             return [self.distp * 23 * (self.p_cnt_n - 1 - i),
                     self.gt_patt.size()[1] - 13 + self.distx * (i + self.p_cnt_p)]
 
+    def calc_glider_pos(self, g, i):
+        gpos = self.gt_patt.glider_pos(g)
+        idx = i
+        if i >= self.p_cnt_p:
+            gsize = self.gt_patt.size()
+            gpos[1] = gsize[1] - gpos[1] - 3
+            idx = i - self.p_cnt_p
+        ppos = self.calc_patt_pos(idx, i < self.p_cnt_p)
+        return [gpos[0] + ppos[0], gpos[1] + ppos[1]]
+
     def calc_eater_pos(self, i):
         y = self.gt_patt.size()[1] - 5 + i * self.distx
         ph = i%2
@@ -380,7 +436,7 @@ class golly_ticker(object):
         else:
             ph = i % 2
         if ph: y -= 7
-        return ph, [-3 - self.length, y]
+        return ph, [1 - self.length, y]
 
     def make_gt(self, width, height, length):
         self.calc_parm(width, height, length)
@@ -402,10 +458,17 @@ class golly_ticker(object):
                 self.gt_lm = self.gt_lm.add(
                     self.eater_lm_p, etp)
 
+    def clear_glider(self, x, y):
+        px, py = self.calc_glider_pos(x, y)
+        self.gt_lm.cut([px - self.gt_lm.x, py - self.gt_lm.y], [3, 3])
+
 if __name__ == '__main__':
     gt = golly_ticker('template.rle')
     rslt = rle_loader()
-    gt.make_gt(9, 9, 200)
+    gt.make_gt(27, 9, 200)
+    for i in range(0, 27):
+        for j in range(0, 9):
+            gt.clear_glider(i, j)
     rslt.import_lm(gt.gt_lm)
     rslt.save_file('result.rle')
     

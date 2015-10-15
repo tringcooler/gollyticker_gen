@@ -116,8 +116,8 @@ class rle_loader(object):
 
     def make_content(self):
         self.content = ''
-        self.width = self.lm.width - self.lm.x + 1
-        self.height = self.lm.height - self.lm.y + 1
+        self.width = self.lm.width #- self.lm.x + 1
+        self.height = self.lm.height #- self.lm.y + 1
         st = 'sta_m_ready'
         cnt = 0
         for y in range(0, self.height):

@@ -1,0 +1,24 @@
+#CXRLE Pos=0,0 Gen=13
+x = 266, y = 290, rule = B3/S23
+2b2o238b2o$bobo221b2o15bobo7b2o$bo223b2o17bo7b2o$2o240b3o2$229bo$227bo
+3b2o$226b2obob2o9b3o$225b2o6bo10bo$226b2obob2o9bobo$227bo3b2o9b2o$229b
+o2$262b2o$237b2o23bo2bo$236b2o17b3o$238bo15bo3bobo$254bo3bobo3b2o$255b
+2o$257bo3bo$224bo$224bobo$224b2o$255b2o5b2o2$249bo4bo9bo$248b2o4bo3bob
+o3bo$248bobo3bo3bobo3bo$255bobo3bobo$256bo5bo2$213bo$212bo$212b3o4$
+245bo$245b2o$244bobo$255b2o$255b2o2$201bo$201bobo$201b2o4$233b2o$234b
+2o$233bo3$190bo$189bo$189b3o4$222bo$222b2o$221bobo4$178bo$178bobo$178b
+2o4$210b2o$211b2o$210bo3$167bo$166bo$166b3o4$199bo$199b2o$198bobo4$
+155bo$155bobo$155b2o4$187b2o$188b2o$187bo3$144bo$143bo$143b3o4$176bo$
+176b2o$175bobo4$132bo$132bobo$132b2o4$164b2o$165b2o$164bo3$121bo$120bo
+$120b3o4$153bo$153b2o$152bobo4$109bo$109bobo$109b2o4$141b2o$142b2o$
+141bo3$98bo$97bo$97b3o4$130bo$130b2o$129bobo4$86bo$86bobo$86b2o4$118b
+2o$119b2o$118bo3$75bo$74bo$74b3o4$107bo$107b2o$106bobo4$63bo$63bobo$
+63b2o4$95b2o$96b2o$95bo3$52bo$51bo$51b3o4$84bo$84b2o$83bobo4$8b2o30bo$
+8b2o30bobo$40b2o4$72b2o$73b2o$72bo$2bo5bo$b3o3b3o$2obo3bob2o18bo$28bo$
+28b3o$3bo3bo$3bo3bo2$61bo$61b2o$60bobo5$obo$o2bo$bobo13bo$2bo12bobo$
+16b2o$49b2o$50b2o$49bo3$11bo3bo$11bo3bo2$28bo$8b2obo3bob2o10bo$9b3o3b
+3o9b3o$10bo5bo21bo$38b2o$37bobo3$28b2o$28b2o2$16b2o$16b2o8$87b2o$87b2o
+$28b3o3b3o43b3o$28bo2bobo2bo42bo3bo$28b2obobob2o42b2ob2o$28b2o5b2o$79b
+2ob2o$81bo3$30b2ob2o$28bo2bobo2bo43bo7bo$28bobo3bobo42bo2bo3bo2bo$28b
+3o3b3o46bobo$35b2o46bobo$35b2o46bobo$35b2o42bo2bo3bo2bo$80b3o3b3o10$
+87b2o$87b2o!

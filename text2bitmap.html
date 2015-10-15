@@ -1,0 +1,61 @@
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+
+function draw_text(ctx, x, y, text, font, align, baseline, stroke) {
+	if(!font) font = '20px Arial';
+	if(!align) align = 'left';
+	if(!baseline) baseline = 'top';
+	ctx.save();
+	ctx.font = font;
+	ctx.textAlign = align;
+	ctx.textBaseline = baseline;
+	if(!stroke)
+		ctx.fillText(text, x, y);
+	else
+		ctx.strokeText(text, x, y);
+	var txt_width =  Math.ceil(ctx.measureText(text).width);
+	var _fs = font.split(' '), i = 0;
+	while(_fs[i++].slice(-2) != 'px');
+	var txt_height = parseInt(_fs[i-1].split('px')[0]) * 2;
+	ctx.restore();
+	return [txt_width, txt_height];
+}
+
+function get_data(ctx, x, y, w, h) {
+	var rslt = {};
+	var src = ctx.getImageData(x, y, w, h).data;
+	for(var j = 0; j < h; j++) {
+		for(var i = 0; i < w; i++) {
+			var pd = src[(j * w + i) * 4 + 3];
+			if(pd > 127) {
+				if(!(j in rslt)) rslt[j] = {};
+				rslt[j][i] = 1;
+			}
+		}
+	}
+	return rslt;
+}
+
+function clear_rect(ctx, x, y, w, h) {
+	ctx.clearRect(x, y, w, h);
+}
+
+$(document).ready(function() {
+	var ctx = $('canvas')[0].getContext('2d');
+	var sz = draw_text(ctx, 0, 0, '♥Happy♥Birthday!', 'bold 14px verdana');
+	//var sz = draw_text(ctx, 0, 0, 'I II III IIII IIIII', 'bold 14px verdana');
+	var dt = get_data(ctx, 0, 0, sz[0], sz[1]);
+	document.write(JSON.stringify(dt));
+	document.close();
+});
+
+</script>
+</head>
+<body>
+<div>
+<canvas width = '800' height = '600' />
+</div>
+</body>
+</html>
